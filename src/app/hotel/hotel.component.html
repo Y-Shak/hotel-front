@@ -1,0 +1,104 @@
+<main class="container">
+    <div class="alert alert-success" *ngIf="success">Opération effectuée avec succès</div>
+    <div class="h2">Liste des Hotels</div>
+    <button data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-primary float-end" (click)="resetForm()">Nouveau
+        Hotel</button>
+
+    <br><br>
+    <div class="row">
+        <div class="col-9">
+            <div class="input-group mb-3 clearfix">
+                <span class="input-group-text" id="basic-addon1"><i class="fa fa-search" aria-hidden="true"></i></span>
+                <input type="text" class="form-control" placeholder="Rechercher un hotel par nom, ville ou adresse" aria-describedby="basic-addon1" [(ngModel)]="search">
+            </div>
+        </div>
+        <div class="col-3">
+            <button type="button" class="btn btn-primary" (click)="loadHotels()">Rechercher</button>
+        </div>
+    </div>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>Nom</th>
+                <th>Etoiles</th>
+                <th>Mail</th>
+                <th>Téléphone</th>
+                <th>Adresse</th>
+                <th>Ville</th>
+                <th><i class="fa fa-cogs"></i></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let hotel of hotels">
+                <td>{{ hotel.id }}</td>
+                <td>{{ hotel.nom }}</td>
+                <td>{{ hotel.etoiles }}</td>
+                <td>{{ hotel.email }}</td>
+                <td>{{ hotel.telephone }}</td>
+                <td>{{ hotel.adresse }}</td>
+                <td>{{ hotel.ville }}</td>
+                <td>
+                    <a (click)="edit( hotel.id )" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
+                            class="fa fa-edit"></i></a>
+                    <a (click)="delete( hotel.id )" class="ps-2"><i class="fa fa-trash"></i></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</main>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form name="hotelForm" method="POST" (submit)="submitForm()" ngNativeValidate>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel" *ngIf="h.id == undefined">Ajouter un hotel</h5>
+                    <h5 class="modal-title" id="exampleModalLabel" *ngIf="h.id != undefined">Editer un hotel</h5>
+                    <button type="button" #closebutton class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="alert alert-danger" *ngIf="error">Une erreur est survenue, veuillez vérifier votre saisie
+                        <p>{{errorMessage}}</p>
+
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="nom" class="form-label">Nom hotel</label>
+                        <input type="text" class="form-control" id="nom" name="nom" placeholder="nom" required autofocus [(ngModel)]="h.nom">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="etoiles" class="form-label">Etoiles</label>
+                        <input type="number" class="form-control" id="etoiles" name="etoiles" placeholder="Etoiles" required [(ngModel)]="h.etoiles">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control" id="email" placeholder="Email" minlength="2" required [(ngModel)]="h.email">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="telephone" class="form-label">Téléphone</label>
+                        <input type="tel" class="form-control" id="telephone" name="telephone" placeholder="Téléphone" minlength="2" required [(ngModel)]="h.telephone">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="adresse" class="form-label">Adresse</label>
+                        <input type="text" class="form-control" id="adresse" name="adresse" placeholder="adresse" minlength="2" required [(ngModel)]="h.adresse">
+                    </div>
+                    <div class="mb-3">
+                        <label for="ville" class="form-label">Ville</label>
+                        <input type="text" class="form-control" id="ville" name="ville" placeholder="ville" minlength="2" required [(ngModel)]="h.ville">
+                    </div>
+
+                    
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="reset" class="btn btn-danger float-end">Annuler</button>
+                    <button type="submit" class="btn btn-secondary" id="submitbtn">Valider</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
