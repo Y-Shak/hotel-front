@@ -15,13 +15,31 @@ export class ClientComponent implements OnInit {
   success : boolean = false; 
   error : boolean = false; 
   search : String  = "" ; 
+  
   constructor(private cs : ClientService) { }
 
   ngOnInit(): void {
     this.loadClients();
   }
   loadClients():void{
-    this.cs.load( this.search ).subscribe(
+    this.cs.load( this.search , undefined ).subscribe(
+      data => { 
+        this.clients = data; 
+      }
+    );
+  }
+  isAscSorted : Boolean = true;
+  loadSortedClients(){
+    let typeSorting = ""
+    
+    if(this.isAscSorted){
+      typeSorting = "Asc"
+      this.isAscSorted = false
+    }else{
+      typeSorting = "Desc"
+      this.isAscSorted = true
+    }
+    this.cs.load(undefined,typeSorting).subscribe(
       data => { 
         this.clients = data; 
       }

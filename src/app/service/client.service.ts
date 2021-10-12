@@ -12,17 +12,21 @@ export class ClientService {
 
   constructor( private http : HttpClient ) { }
   
-  load( search?: String ): Observable<Client[]> {
+  load( search?: String ,typeSorting? : string): Observable<Client[]> {
     let searchCondition = ""
 
     if( search != undefined && search.length > 0 ){
       searchCondition = "?search="+search; 
     }
+    if(typeSorting != undefined && typeSorting.length >0){
+      
+      searchCondition += "?tri="+typeSorting;
+    }
 
     console.log("chargement des Clients");
     return this.http.get<Client[]>( environment.apiUrl  + "client"+searchCondition , httpOptions );
   }
-
+  
   get( id? : number ) : Observable<Client> {
     return this.http.get<Client>( environment.apiUrl  + "client/"+id , httpOptions );
   }

@@ -12,13 +12,16 @@ export class HotelService {
 
   constructor( private http : HttpClient ) { }
   
-  loadHotels( search?: String ): Observable<Hotel[]> {
+  loadHotels( search?: String, typeSorting? : String ): Observable<Hotel[]> {
     let searchCondition = ""
 
     if( search != undefined && search.length > 0 ){
       searchCondition = "?search="+search; 
     }
-
+    if(typeSorting != undefined && typeSorting.length >0){
+      
+      searchCondition += "?tri="+typeSorting;
+    }
     console.log("chargement des Hotels");
     return this.http.get<Hotel[]>( environment.apiUrl  + "hotel"+searchCondition , httpOptions );
   }

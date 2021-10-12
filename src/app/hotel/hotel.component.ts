@@ -24,7 +24,24 @@ export class HotelComponent implements OnInit {
     this.loadHotels();
   }
   loadHotels():void{
-    this.hs.loadHotels( this.search ).subscribe(
+    this.hs.loadHotels( this.search ,undefined).subscribe(
+      data => { 
+        this.hotels = data; 
+      }
+    );
+  }
+  isAscSorted : Boolean = true;
+  loadSortedHotels(){
+    let typeSorting = ""
+    
+    if(this.isAscSorted){
+      typeSorting = "Asc"
+      this.isAscSorted = false
+    }else{
+      typeSorting = "Desc"
+      this.isAscSorted = true
+    }
+    this.hs.loadHotels(undefined,typeSorting).subscribe(
       data => { 
         this.hotels = data; 
       }
